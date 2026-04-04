@@ -1,0 +1,186 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* BODY */
+body {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* PAGE */
+.page {
+  display: none;
+  text-align: center;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  width: 320px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.page.active {
+  display: block;
+}
+
+/* TEXT */
+h1, h2, h3 {
+  margin-bottom: 15px;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+/* BUTTON */
+button {
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+  background: #4facfe;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #007bff;
+  transform: scale(1.05);
+}
+
+/* INPUT */
+input {
+  padding: 10px;
+  width: 80%;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  outline: none;
+  text-align: center;
+}
+
+input:focus {
+  border-color: #4facfe;
+}
+
+/* GAME INFO */
+.game-info {
+  margin: 10px 0;
+}
+
+/* COUNTDOWN */
+#countdown, #countdown2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0,0,0,0.8);
+  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 80px;
+  font-weight: bold;
+  z-index: 9999;
+
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+/* aktif */
+#countdown.countdown-show,
+#countdown2.countdown-show {
+  visibility: visible;
+  opacity: 1;
+}
+/* CURRENT WORD */
+#currentWord, #currentWord2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+/* ERROR EFFECT */
+.error {
+  border-color: red !important;
+  animation: shake 0.3s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+/* POPUP */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  width: 280px;
+}
+
+.popup.show {
+  display: flex;
+}
+
+.message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+  min-height: 18px;
+}
+
+/* SELECT MODE */
+select {
+  padding: 10px;
+  width: 80%;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 2px solid #4facfe;
+  outline: none;
+  text-align: center;
+  font-size: 16px;
+  background: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* HOVER */
+select:hover {
+  transform: scale(1.05);
+}
+
+/* FOCUS (pas diklik) */
+select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0,123,255,0.5);
+}
