@@ -1,6 +1,13 @@
 // ================= LOAD WORD.JSON =================
 let words = [];
 
+const clickSound = new Audio("sounds/click.mp3");
+const wrongSound = new Audio("sounds/salah.mp3");
+const gameoverSound = new Audio("sounds/gameover.mp3");
+const winSound = new Audio("sounds/win.mp3");
+const countdownSound = new Audio("sounds/countdown.mp3");
+const goSound = new Audio("sounds/go.mp3");
+
 fetch("word.json")
   .then(res => res.json())
   .then(data => {
@@ -38,22 +45,37 @@ function startCountdown(callback, elementId) {
   let count = 3;
   let el = document.getElementById(elementId);
 
-  el.classList.add("countdown-show"); // munculin overlay
+  el.classList.add("countdown-show");
   el.textContent = count;
+
+  countdownSound.currentTime = 0;
+  countdownSound.play().catch(() => {});
 
   let cd = setInterval(() => {
     count--;
-    el.textContent = count >= 0 ? count : "GO!";
+
+    if (count > 0) {
+      el.textContent = count;
+    } 
+    else if (count === 0) {
+      el.textContent = "0";
+    } 
+    else {
+      el.textContent = "GO!";
+      goSound.currentTime = 0;
+      goSound.play().catch(() => {});
+    }
 
     if (count < 0) {
       clearInterval(cd);
 
       setTimeout(() => {
-        el.classList.remove("countdown-show"); // hilangin overlay
+        el.classList.remove("countdown-show");
         el.textContent = "";
         callback();
-      }, 500);
+      }, 800);
     }
+
   }, 1000);
 }
 
@@ -68,6 +90,7 @@ function startBotGame() {
   lives = 3;
   turnCount = 0;
 
+  document.getElementById("messageBot").textContent = "";
   document.getElementById("lives").textContent = "❤️❤️❤️";
   document.getElementById("modeTitle").textContent = "Mode " + mode;
 
@@ -77,13 +100,13 @@ function startBotGame() {
 }
 
 function nextWordBot() {
-  currentWord = getRandomWord();
+  currentWord = getRandod("playerInput").value = "";
+mWord();
   usedWords.push(currentWord);
   lastChar = currentWord.slice(-1);
 
   document.getElementById("currentWord").textContent = currentWord;
-  document.getElementById("playerInput").value = "";
-
+  document.getElementByI
   startTimerBot();
 }
 
@@ -98,6 +121,8 @@ function startTimerBot() {
     document.getElementById("timer").textContent = timer;
 
     if (timer <= 0) {
+      wrongSound.currentTime = 0;
+      wrongSound.play();
       wrongAnswerBot();
     }
   }, 1000);
@@ -111,12 +136,20 @@ function submitWord() {
   if (!word || word[0] !== lastChar || !words.includes(word)) {
   document.getElementById("messageBot").textContent = "Jawaban salah!";
   shakeInput("playerInput");
+
+    wrongSound.currentTime = 0;
+    wrongSound.play();
+
   return;
 }
 
   // cek kata sudah dipakai
   if (usedWords.includes(word)) {
     document.getElementById("messageBot").textContent = "Kata telah digunakan!";
+    shakeInput("playerInput");
+
+    wrongSound.currentTime = 0;
+    wrongSound.play();
     return;
   } else {
     document.getElementById("messageBot").textContent = "";
@@ -150,11 +183,13 @@ function submitWord() {
   // simpan kata bot
   usedWords.push(botWord);
 
-  turnCount++;
-  checkWinBot();
+ turnCount++;
 
-  startTimerBot();
-  input.value = "";
+let isWin = checkWinBot();
+if (isWin) return;
+
+startTimerBot();
+input.value = "";
 }
 
 function wrongAnswerBot() {
@@ -166,7 +201,10 @@ function wrongAnswerBot() {
   shakeInput("playerInput");
 
   if (lives <= 0) {
-    showPopup("Game Over");
+    showPopup("Game Over!!!");
+    gameoverSound.currentTime = 0;
+    gameoverSound.play();
+
     return;
   }
 
@@ -174,15 +212,27 @@ function wrongAnswerBot() {
 }
 
 function updateLives() {
-  document.getElementById("lives").textContent = "❤️".repeat(lives);
+  const livesEl = document.getElementById("lives");
+  livesEl.textContent = "❤️".repeat(lives);
+
+  livesEl.classList.add("lives-animate");
+  setTimeout(() => {
+    livesEl.classList.remove("lives-animate");
+  }, 400);
 }
 
 function checkWinBot() {
   let target = mode === "mudah" ? 10 : mode === "normal" ? 25 : 50;
 
   if (turnCount >= target) {
+    clearInterval(interval);
     showPopup("Kamu Menang!");
+    winSound.currentTime = 0;
+    winSound.play();
+    return true;
   }
+
+  return false;
 }
 
 // ================= MODE 2 PLAYER =================
@@ -227,6 +277,9 @@ function startTimer2() {
     document.getElementById("timer2").textContent = timer;
 
     if (timer <= 0) {
+      shakeInput("playerInput2");
+      wrongSound.currentTime = 0;
+      wrongSound.play();
       wrongAnswer2();
     }
   }, 1000);
@@ -239,11 +292,19 @@ function submitWord2() {
 if (!word || word[0] !== lastChar || !words.includes(word)) {
   document.getElementById("message2").textContent = "Jawaban salah!";
   shakeInput("playerInput2");
+
+  wrongSound.currentTime = 0;
+  wrongSound.play();
+
   return;
 }
 
 if (usedWords.includes(word)) {
   document.getElementById("message2").textContent = "Kata telah digunakan!";
+  shakeInput("playerInput2");
+
+  wrongSound.currentTime = 0;
+  wrongSound.play();
   return;
 } else {
   document.getElementById("message2").textContent = "";
@@ -278,11 +339,15 @@ function wrongAnswer2() {
 
   if (livesP1 <= 0) {
     showPopup(player2Name + " Menang!");
+    winSound.currentTime = 0;
+    winSound.play();
     return;
   }
 
   if (livesP2 <= 0) {
     showPopup(player1Name + " Menang!");
+    winSound.currentTime = 0;
+    winSound.play();
     return;
   }
 
@@ -364,3 +429,11 @@ function showMessage(text) {
     popup.classList.remove("show");
   }, 1500);
 }
+
+// Sounds Game
+document.querySelectorAll("button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    clickSound.currentTime = 0;
+    clickSound.play();
+  });
+})
