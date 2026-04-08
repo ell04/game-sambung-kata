@@ -1,90 +1,170 @@
-/* RESET */
+/* ================= ROOT DESIGN SYSTEM ================= */
+:root {
+  --primary: #1f6fa3;
+  --primary-dark: #174968;
+  --accent: #4fc3f7;
+  --danger: #ff4d4d;
+  --bg: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  --card: rgb(217, 218, 219);
+  --text-dark: #1e1e1e;
+}
+
+/* ================= RESET ================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* BODY */
+/* ================= BODY ================= */
 body {
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
-  height: 100vh;
+  background: var(--bg);
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* PAGE */
+/* ================= PAGE CARD ================= */
 .page {
   display: none;
+  width: 90%;
+  max-width: 500px;
+  padding: 55px;
+  border-radius: 25px;
+  background: var(--card);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
   text-align: center;
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  width: 320px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+
+  opacity: 0;
+  transform: translateY(15px);
+  transition: 0.35s ease;
 }
 
 .page.active {
   display: block;
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* TEXT */
-h1, h2, h3 {
-  margin-bottom: 15px;
+/* ================= TYPOGRAPHY ================= */
+h1 {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  margin-bottom: 30px;
+}
+
+h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  opacity: 0.9;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
 p {
-  margin-bottom: 10px;
+  font-size: 14px;
+  opacity: 0.7;
+  margin-bottom: 25px;
 }
 
-/* BUTTON */
+/* ================= BUTTON ================= */
 button {
-  padding: 10px 15px;
-  margin: 5px;
+  padding: 11px 20px;
+  margin: 6px;
   border: none;
-  border-radius: 8px;
-  background: #4facfe;
+  border-radius: 12px;
+  background: var(--primary);
   color: white;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.25s ease;
+  touch-action: manipulation;
 }
 
 button:hover {
-  background: #007bff;
-  transform: scale(1.05);
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(31,111,163,0.4);
 }
 
-/* INPUT */
-input {
-  padding: 10px;
-  width: 80%;
+button:active {
+  transform: scale(0.95);
+}
+
+/* ================= INPUT ================= */
+input, select {
+  width: 85%;
+  padding: 12px;
   margin: 10px 0;
-  border-radius: 8px;
-  border: 2px solid #ccc;
+  border-radius: 12px;
+  border: 2px solid var(--primary);
   outline: none;
   text-align: center;
+  font-size: 14px;
+  transition: 0.25s ease;
 }
 
-input:focus {
-  border-color: #4facfe;
+input:focus,
+select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 8px rgba(79,195,247,0.6);
 }
 
-/* GAME INFO */
+/* ================= GAME INFO ================= */
 .game-info {
-  margin: 10px 0;
+  margin: 15px 0;
+  font-weight: 600;
 }
 
-/* COUNTDOWN */
-#countdown, #countdown2 {
+#lives,
+#livesP1,
+#livesP2 {
+  display: inline-block;
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.lives-animate {
+  animation: pulse 0.4s ease;
+}
+
+/* ================= CURRENT WORD ================= */
+#currentWord,
+#currentWord2 {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin: 20px 0;
+  color: var(--primary-dark);
+  text-shadow: 0 0 10px rgba(31,111,163,0.3);
+}
+
+/* ================= COUNTDOWN OVERLAY ================= */
+#countdown,
+#countdown2 {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 
-  background: rgba(0,0,0,0.8);
+  background: rgba(0, 0, 0, 0.75);
   color: white;
 
   display: flex;
@@ -92,7 +172,7 @@ input:focus {
   align-items: center;
 
   font-size: 80px;
-  font-weight: bold;
+  font-weight: 700;
   z-index: 9999;
 
   visibility: hidden;
@@ -100,22 +180,15 @@ input:focus {
   transition: 0.3s;
 }
 
-/* aktif */
 #countdown.countdown-show,
 #countdown2.countdown-show {
   visibility: visible;
   opacity: 1;
 }
-/* CURRENT WORD */
-#currentWord, #currentWord2 {
-  font-size: 22px;
-  font-weight: bold;
-  margin: 15px 0;
-}
 
-/* ERROR EFFECT */
+/* ================= ERROR SHAKE ================= */
 .error {
-  border-color: red !important;
+  border-color: var(--danger) !important;
   animation: shake 0.3s;
 }
 
@@ -127,7 +200,7 @@ input:focus {
   100% { transform: translateX(0); }
 }
 
-/* POPUP */
+/* ================= POPUP ================= */
 .popup {
   position: fixed;
   top: 0;
@@ -140,47 +213,86 @@ input:focus {
   align-items: center;
 }
 
-.popup-content {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  text-align: center;
-  width: 280px;
-}
-
 .popup.show {
   display: flex;
 }
 
+.popup-content {
+  background: white;
+  padding: 30px;
+  border-radius: 18px;
+  width: 300px;
+  text-align: center;
+  transform: scale(0.8);
+  transition: 0.3s ease;
+}
+
+.popup.show .popup-content {
+  transform: scale(1);
+}
+
+/* ================= MESSAGE ================= */
 .message {
-  color: red;
+  color: var(--danger);
   font-size: 14px;
-  margin-top: 5px;
+  margin-top: 8px;
   min-height: 18px;
 }
 
-/* SELECT MODE */
-select {
-  padding: 10px;
-  width: 80%;
-  margin: 10px 0;
-  border-radius: 10px;
-  border: 2px solid #4facfe;
-  outline: none;
-  text-align: center;
-  font-size: 16px;
-  background: white;
-  cursor: pointer;
-  transition: 0.2s;
+/* ================= MOBILE OPTIMIZATION ================= */
+@media (max-width: 480px) {
+
+  body {
+    padding: 15px;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .page {
+    padding: 28px;
+    border-radius: 20px;
+  }
+
+  h1 {
+    font-size: 24px;
+    letter-spacing: 1px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+
+  button {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+  }
+
+  input,
+  select {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  #currentWord,
+  #currentWord2 {
+    font-size: 20px;
+  }
+
+  #countdown,
+  #countdown2 {
+    font-size: 60px;
+  }
 }
 
-/* HOVER */
-select:hover {
-  transform: scale(1.05);
-}
-
-/* FOCUS (pas diklik) */
-select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0,123,255,0.5);
+/* ================= CREDIT ================= */
+.credit {
+  font-size: 12px;
+  margin-top: 30px;
+  opacity: 0.5;
+  letter-spacing: 1px;
 }
