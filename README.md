@@ -6,8 +6,8 @@ Game sederhana sambung kata berbasis web.
 - Masukkan kata sesuai huruf terakhir
 - Jangan ulang kata
 - Kalah kalau waktu habis
-- Main bersama bot atau 2 player (1 device)
-## Mode bersama bot
+- Main sendiri atau 2 player (1 device)
+## Mode 1 player
 - Mudah
 - Normal
 - Sulit
