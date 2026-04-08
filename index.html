@@ -4,26 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sambung Kata</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
 
+<body>
   <!-- PAGE 1: MENU UTAMA -->
   <div id="page1" class="page active">
-    <h1>Sambung Kata</h1>
+    <h1>SAMBUNG KATA</h1>
     <p>Silahkan pilih mode</p>
-    <button onclick="goToPage('page2')">Lawan Bot</button>
+    <button onclick="goToPage('page2')">1 Player</button>
     <button onclick="goToPage('page3')">2 Player</button>
+    <p class="credit">
+  Created by εℓℓ ⋆｡ﾟ © 2026
+</p>
   </div>
 
   <!-- PAGE 2: MODE BOT -->
   <div id="page2" class="page">
     <h2>Pilih Mode</h2>
     <select id="modeSelect">
-  <option value="mudah">Mudah</option>
-  <option value="normal">Normal</option>
-  <option value="sulit">Sulit</option>
-</select>
+      <option value="mudah">Mudah</option>
+      <option value="normal">Normal</option>
+      <option value="sulit">Sulit</option>
+    </select>
 
     <br><br>
     <button onclick="startBotGame()">Mulai Game</button>
@@ -85,7 +89,7 @@
   <!-- POPUP -->
   <div id="popup" class="popup">
     <div class="popup-content">
-      <h2 id="popupText">Game Over</h2>
+      <h2 id="popupText">Game Over!!!</h2>
       <button onclick="restartGame()">Mulai Lagi</button>
       <button onclick="goToPage('page1')">Kembali ke Menu</button>
     </div>
